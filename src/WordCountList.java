@@ -36,6 +36,20 @@ public class WordCountList {
         add(new WordCount(s));
     }
 
+    public void remove(int index) {
+        WordCount[] newList = new WordCount[this.list.length - 1];
+        newList = copy(newList, 0, index);
+        newList = copy(newList, index, newList.length, 1);
+        list = newList;
+    }
+
+    public void remove(WordCount w) {
+        remove(indexOf(w));
+    }
+
+    public void remove(String s) {
+        remove(indexOf(s));
+    }
 
     private WordCount[] copy(WordCount[] arr, int start, int end) {
         return copy(arr, start, end, 0);

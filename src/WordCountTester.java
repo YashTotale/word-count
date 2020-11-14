@@ -138,6 +138,23 @@ public class WordCountTester {
             }
             System.out.println("get works");
 
+            //Remove tester
+            wcl.remove(0);
+            if(!wcl.toString().equals("[hola - 2, ni hao - 3]")) {
+                throw new Exception("remove w/ int doesn't work");
+            }
+
+            wcl.remove(new WordCount("ni hao"));
+            if(!wcl.toString().equals("[hola - 2]")) {
+                throw new Exception("remove w/ WordCount doesn't work");
+            }
+
+            wcl.remove("hola");
+            if(!wcl.toString().equals("[]")) {
+                throw new Exception("remove w/ string doesn't work");
+            }
+            System.out.println("remove works");
+
             System.out.println(wcl);
         } catch (Exception e) {
             e.printStackTrace();
