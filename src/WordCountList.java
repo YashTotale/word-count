@@ -56,9 +56,7 @@ public class WordCountList {
     }
 
     private WordCount[] copy(WordCount[] arr, int start, int end, int offset) {
-        for (int x = start; x < end; x++) {
-            arr[x] = this.list[x + offset];
-        }
+        for (int x = start; x < end; x++) arr[x] = this.list[x + offset];
         return arr;
     }
 
@@ -91,6 +89,14 @@ public class WordCountList {
         if (alphaDiff < 0) return indexOf(w, mid + 1, max);
 
         return indexOf(w, min, mid - 1);
+    }
+
+    public boolean contains(WordCount w) {
+        return indexOf(w) != -1;
+    }
+
+    public boolean contains(String s) {
+        return indexOf(s) != -1;
     }
 
     public String toString() {

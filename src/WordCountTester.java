@@ -138,6 +138,16 @@ public class WordCountTester {
             }
             System.out.println("get works");
 
+            //Contains tester
+            if(!wcl.contains("hola")) {
+                throw new Exception("contains w/ string doesn't work");
+            }
+
+            if(!wcl.contains(new WordCount("hola"))) {
+                throw new Exception("contains w/ WordCount doesn't work");
+            }
+            System.out.println("contains works");
+
             //Remove tester
             wcl.remove(0);
             if(!wcl.toString().equals("[hola - 2, ni hao - 3]")) {
