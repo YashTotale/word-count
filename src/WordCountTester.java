@@ -89,10 +89,10 @@ public class WordCountTester {
         wcl.add("hola");
         wcl.add(new WordCount("bonjour"));
         wcl.add(new WordCount("ni hao", 3));
-//        wcl.get(2).increment();
+        wcl.get(2).increment();
         wcl.add(new WordCount("hola"));
         wcl.add("bonjour");
-//        wcl.get(wcl.indexOf("hola")).increment();
+        wcl.get(wcl.indexOf("hola")).increment();
         System.out.println(wcl);
 
     }
