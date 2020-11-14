@@ -1,6 +1,6 @@
 public class WordCountTester {
     public static void main(String[] args) {
-    	new WordCountTester().start();
+        new WordCountTester().start();
     }
 
     private void start() {
@@ -29,46 +29,46 @@ public class WordCountTester {
             int expectedCount2 = count2 + 1; // <- should be 3
 
             //Increment + getCount tester
-            if(wc1.getCount() != expectedCount1 || wc2.getCount() != expectedCount2) {
+            if (wc1.getCount() != expectedCount1 || wc2.getCount() != expectedCount2) {
                 throw new Exception("Increment or getCount doesn't work");
             }
             System.out.println("Increment and getCount work");
 
             //getWord tester
-            if(!wc1.getWord().equals(word1)) {
+            if (!wc1.getWord().equals(word1)) {
                 throw new Exception("getWord doesn't work");
             }
             System.out.println("getWord works");
 
             //toString tester
-            if(!wc1.toString().equals(word1 + " - " + expectedCount1)) {
+            if (!wc1.toString().equals(word1 + " - " + expectedCount1)) {
                 throw new Exception("toString doesn't work");
             }
             System.out.println("toString works");
 
             //Compare Alpha tester
-            if(wc1.compareAlpha(wc1) != 0) {
+            if (wc1.compareAlpha(wc1) != 0) {
                 throw new Exception("Comparing the same Word Count alphabetically doesn't work");
             }
-            if(wc1.compareAlpha(wc2) > 0) {
+            if (wc1.compareAlpha(wc2) > 0) {
                 throw new Exception("Comparing different Word Counts alphabetically doesn't work");
             }
             System.out.println("compareAlpha works");
 
             //Compare Frequency tester
-            if(wc1.compareFrequency(wc1) != 0) {
+            if (wc1.compareFrequency(wc1) != 0) {
                 throw new Exception("Comparing the same Word Count's frequency doesn't work");
             }
-            if(wc1.compareFrequency(wc2) < 0) {
+            if (wc1.compareFrequency(wc2) < 0) {
                 throw new Exception("Comparing different Word Counts' frequency doesn't work");
             }
             System.out.println("compareFrequency works");
 
             //Compare Length tester
-            if(wc1.compareLength(wc1) != 0) {
+            if (wc1.compareLength(wc1) != 0) {
                 throw new Exception("Comparing the same Word Count's length doesn't work");
             }
-            if(wc1.compareLength(wc2) < 0) {
+            if (wc1.compareLength(wc2) < 0) {
                 throw new Exception("Comparing different Word Counts' length doesn't work");
             }
             System.out.println("compareLength works");
@@ -83,17 +83,64 @@ public class WordCountTester {
      * below. When it is asked to add, it needs to maintain alpha order.
      */
     private void testWordCountListClass() {
-    	System.out.println("\nTesting WordCountList");
-//        // Now I can add, get, indexOf among other methods.
-        WordCountList wcl = new WordCountList();
-        wcl.add("hola");
-        wcl.add(new WordCount("bonjour"));
-        wcl.add(new WordCount("ni hao", 3));
-        wcl.get(2).increment();
-        wcl.add(new WordCount("hola"));
-        wcl.add("bonjour");
-        wcl.get(wcl.indexOf("hola")).increment();
-        System.out.println(wcl);
+        try {
+            System.out.println("\nTesting WordCountList");
+            WordCountList wcl = new WordCountList();
 
+            //Add + toString tester
+            wcl.add("hola");
+
+            if (!wcl.toString().equals("[hola - 1]")) {
+                throw new Exception("Add doesn't work for new string addition");
+            }
+
+            wcl.add(new WordCount("bonjour"));
+
+            if (!wcl.toString().equals("[bonjour - 1, hola - 1]")) {
+                throw new Exception("Add doesn't work for new WordCount w/out count addition");
+            }
+
+            wcl.add(new WordCount("ni hao", 3));
+
+            if (!wcl.toString().equals("[bonjour - 1, hola - 1, ni hao - 3]")) {
+                throw new Exception("Add doesn't work for new WordCount w/ count addition");
+            }
+
+            wcl.add(new WordCount("hola"));
+
+            if (!wcl.toString().equals("[bonjour - 1, hola - 2, ni hao - 3]")) {
+                throw new Exception("Add doesn't work for increment WordCount addition");
+            }
+
+            wcl.add("bonjour");
+
+            if (!wcl.toString().equals("[bonjour - 2, hola - 2, ni hao - 3]")) {
+                throw new Exception("Add doesn't work for increment string addition");
+            }
+            System.out.println("add works");
+
+            //IndexOf tester
+            if (wcl.indexOf("bonjour") != 0) {
+                throw new Exception("indexOf w/ strings doesn't work");
+            }
+
+            if (wcl.indexOf(new WordCount("hola")) != 1) {
+                throw new Exception("indexOf w/ WordCount doesn't work");
+            }
+            System.out.println("indexOf works");
+
+            //Get tester
+            if(!wcl.get(0).toString().equals("bonjour - 2")) {
+                throw new Exception("get w/ index doesn't work");
+            }
+            if(!wcl.get("bonjour").toString().equals("bonjour - 2")) {
+                throw new Exception("get w/ string doesn't work");
+            }
+            System.out.println("get works");
+
+            System.out.println(wcl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
