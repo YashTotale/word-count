@@ -78,7 +78,7 @@ public class WordCountList {
 
     private int indexOf(WordCount w, int min, int max) {
         int mid = (min + max) / 2;
-        WordCount middle = list[mid];
+        WordCount middle = this.list[mid];
 
         int alphaDiff = middle.compareAlpha(w);
 
@@ -97,6 +97,10 @@ public class WordCountList {
 
     public boolean contains(String s) {
         return indexOf(s) != -1;
+    }
+
+    public int size() {
+        return this.list.length;
     }
 
     public String toString() {

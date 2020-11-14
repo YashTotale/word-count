@@ -165,6 +165,12 @@ public class WordCountTester {
             }
             System.out.println("remove works");
 
+            //Size tester
+            if(wcl.size() != 0) {
+                throw new Exception("size doesn't work");
+            }
+            System.out.println("size works");
+
             System.out.println(wcl);
         } catch (Exception e) {
             e.printStackTrace();
