@@ -15,6 +15,10 @@ public class WordCount {
     public void increment(int count) {
         this.count+=count;
     }
+
+    /**
+     * Increments by 1
+     */
     public void increment() {
         increment(1);
     }
@@ -59,6 +63,9 @@ public class WordCount {
     }
 
     //Misc
+    /**
+     * @return The string representation of the WordCount ("word - count")
+     */
     public String toString() {
         return this.word + " - " + this.count;
     }

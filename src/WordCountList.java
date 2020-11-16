@@ -8,6 +8,11 @@ public class WordCountList {
         this.list = new WordCount[0];
     }
 
+    /**
+     * Adds the WordCount alphabetically if it is not already present.
+     * If the WordCount is present, its count is incremented by 1.
+     * @param w The WordCount to add
+     */
     public void add(WordCount w) {
         int i = 0;
         try {
@@ -32,6 +37,11 @@ public class WordCountList {
         }
     }
 
+    /**
+     * Adds the WordCount representation of the string alphabetically if it is not already present.
+     * If the WordCount is present, its count is incremented by 1.
+     * @param s The string to add
+     */
     public void add(String s) {
         add(new WordCount(s));
     }
@@ -103,6 +113,9 @@ public class WordCountList {
         return this.list.length;
     }
 
+    /**
+     * @return The string representation of the WordCountList ("[word - count, word - count]")
+     */
     public String toString() {
         return Arrays.toString(this.list);
     }
