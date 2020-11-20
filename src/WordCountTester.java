@@ -10,7 +10,7 @@ public class WordCountTester {
 
     private void testWordCountClass() {
         try {
-            System.out.println("\nTesting WordCount");
+            System.out.println("\n-----\nTesting WordCount\n");
 
             String word1 = "hello";
             String word2 = "hi";
@@ -84,7 +84,7 @@ public class WordCountTester {
      */
     private void testWordCountListClass() {
         try {
-            System.out.println("\nTesting WordCountList");
+            System.out.println("\n-----\nTesting WordCountList\n");
             WordCountList wcl = new WordCountList();
 
             //Add + toString tester
@@ -118,6 +118,46 @@ public class WordCountTester {
                 throw new Exception("Add doesn't work for increment string addition");
             }
             System.out.println("add works");
+
+            //Map tester
+            WordCountList newList = wcl.map((w, i) -> {
+                w.increment();
+                return w;
+            });
+
+            if(!newList.toString().equals("[bonjour - 3, hola - 3, ni hao - 4]")) {
+                throw new Exception("Map doesn't work");
+            }
+            System.out.println("map works");
+
+            //Sort Frequency tester
+
+            WordCountList ascendingFreq = wcl.sortFrequency(true);
+
+            if(!ascendingFreq.toString().equals("[bonjour - 2, hola - 2, ni hao - 3]")) {
+                throw new Exception("sortFrequency ascending doesn't work");
+            }
+
+            WordCountList descendingFreq = wcl.sortFrequency(false);
+
+            if(!descendingFreq.toString().equals("[ni hao - 3, bonjour - 2, hola - 2]")) {
+                throw new Exception("sortFrequency descending doesn't work");
+            }
+            System.out.println("sortFrequency works");
+
+            //Sort Length tester
+            WordCountList ascendingLen = wcl.sortLength(true);
+
+            if(!ascendingLen.toString().equals("[hola - 2, ni hao - 3, bonjour - 2]")) {
+                throw new Exception("sortLength ascending doesn't work");
+            }
+
+            WordCountList descendingLen = wcl.sortLength(false);
+
+            if(!descendingLen.toString().equals("[bonjour - 2, ni hao - 3, hola - 2]")) {
+                throw new Exception("sortLength descending doesn't work");
+            }
+            System.out.println("sortLength works");
 
             //IndexOf tester
             if (wcl.indexOf("bonjour") != 0) {
@@ -171,7 +211,7 @@ public class WordCountTester {
             }
             System.out.println("size works");
 
-            System.out.println(wcl);
+            System.out.println(wcl + "\n-----");
         } catch (Exception e) {
             e.printStackTrace();
         }

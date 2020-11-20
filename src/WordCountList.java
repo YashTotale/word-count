@@ -7,10 +7,15 @@ public class WordCountList {
     public WordCountList() {
         this.list = new WordCount[0];
     }
+    public WordCountList(WordCount[] arr) {
+        this.list = arr;
+    }
 
+    //Add
     /**
      * Adds the WordCount alphabetically if it is not already present.
      * If the WordCount is present, its count is incremented by 1.
+     *
      * @param w The WordCount to add
      */
     public void add(WordCount w) {
@@ -20,8 +25,10 @@ public class WordCountList {
 
             WordCount curr = this.list[i];
 
+            //If WordCount already exists, increment
             if (curr.compareAlpha(w) == 0) curr.increment();
             else {
+                //If it doesn't exist, add it where it fits alphabetically
                 WordCount[] newList = new WordCount[this.list.length + 1];
                 newList = copy(newList, 0, i);
                 newList[i] = w;
@@ -30,6 +37,7 @@ public class WordCountList {
             }
 
         } catch (Exception e) {
+            //If WordCount is alphabetically last, add it to the end
             WordCount[] newList = new WordCount[this.list.length + 1];
             newList = copy(newList, 0, this.list.length);
             newList[this.list.length] = w;
@@ -40,12 +48,14 @@ public class WordCountList {
     /**
      * Adds the WordCount representation of the string alphabetically if it is not already present.
      * If the WordCount is present, its count is incremented by 1.
+     *
      * @param s The string to add
      */
     public void add(String s) {
         add(new WordCount(s));
     }
 
+    //Remove
     public void remove(int index) {
         WordCount[] newList = new WordCount[this.list.length - 1];
         newList = copy(newList, 0, index);
@@ -61,6 +71,23 @@ public class WordCountList {
         remove(indexOf(s));
     }
 
+    //Copy
+    private WordCount[] copy() {
+        int n = this.list.length;
+
+        WordCount[] copied = new WordCount[n];
+
+        for(int i = 0; i < n; i++) {
+            WordCount pos = this.list[i];
+
+            WordCount copy = new WordCount(pos.getWord(), pos.getCount());
+
+            copied[i] = copy;
+        }
+
+        return copied;
+    }
+
     private WordCount[] copy(WordCount[] arr, int start, int end) {
         return copy(arr, start, end, 0);
     }
@@ -70,6 +97,7 @@ public class WordCountList {
         return arr;
     }
 
+    //Get
     public WordCount get(int index) {
         return this.list[index];
     }
@@ -78,6 +106,7 @@ public class WordCountList {
         return this.list[indexOf(s)];
     }
 
+    //IndexOf
     public int indexOf(String s) {
         return indexOf(new WordCount(s));
     }
@@ -101,6 +130,7 @@ public class WordCountList {
         return indexOf(w, min, mid - 1);
     }
 
+    //Contains
     public boolean contains(WordCount w) {
         return indexOf(w) != -1;
     }
@@ -109,8 +139,70 @@ public class WordCountList {
         return indexOf(s) != -1;
     }
 
+    //Size
     public int size() {
         return this.list.length;
+    }
+
+    //Sort
+    public WordCountList sortFrequency(boolean ascending) {
+        int n = this.list.length;
+
+        WordCount[] newArr = copy();
+
+        for (int i = 1; i < n; i++) {
+            WordCount w = newArr[i];
+
+            int count = w.getCount();
+
+            int j = i - 1;
+
+            while (j >= 0 && (ascending ? newArr[j].getCount() > count : newArr[j].getCount() < count)) {
+                newArr[j + 1] = newArr[j];
+                j = j - 1;
+            }
+            newArr[j + 1] = w;
+        }
+        
+        return new WordCountList(newArr);
+    }
+
+    public WordCountList sortLength(boolean ascending) {
+        int n = this.list.length;
+
+        WordCount[] newArr = copy();
+
+        for (int i = 1; i < n; i++) {
+            WordCount w = newArr[i];
+
+            int length = w.getWord().length();
+
+            int j = i - 1;
+
+            while (j >= 0 && (ascending ? newArr[j].getWord().length() > length : newArr[j].getWord().length() < length)) {
+                newArr[j + 1] = newArr[j];
+                j = j - 1;
+            }
+            newArr[j + 1] = w;
+        }
+
+        return new WordCountList(newArr);
+    }
+
+    interface MapFunction {
+        WordCount run(WordCount w, int index);
+    }
+
+    //Map
+    public WordCountList map(MapFunction func) {
+        WordCount[] mappedArr = copy();
+
+        for(int i = 0; i < mappedArr.length; i++) {
+            mappedArr[i] = func.run(mappedArr[i], i);
+        }
+
+
+        return new WordCountList(mappedArr);
     }
 
     /**

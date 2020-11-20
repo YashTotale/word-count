@@ -5,8 +5,9 @@ import java.util.Scanner;
 
 public class FileProcessor {
 
-    WordCountList list = new WordCountList();
-    Scanner fileScanner;
+    private WordCountList list = new WordCountList();
+    private Scanner fileScanner;
+    private File file;
 
     public static void main(String[] args) {
         new FileProcessor().start();
@@ -18,22 +19,31 @@ public class FileProcessor {
         while (this.fileScanner.hasNext()) {
             String word = this.fileScanner.next();
             word = standardize(word);
-            list.add(word);
+            if (!word.isEmpty()) list.add(word);
         }
 
         this.fileScanner.close();
 
+
         String[] resultTypes = {"Alphabetically", "By Frequency", "By Length"};
 
-        String resultType = (String)JOptionPane.showInputDialog(null, "Pick a result type", "Result Type", JOptionPane.QUESTION_MESSAGE, null, resultTypes, resultTypes[0]);
+        String resultType = (String) JOptionPane.showInputDialog(null, "How do you want to display the results?", "Result Type", JOptionPane.QUESTION_MESSAGE, null, resultTypes, resultTypes[0]);
 
-        System.out.println(resultType);
+        String results = list.toString();
 
-        JOptionPane.showMessageDialog(null, list.toString(), "Results " + resultType, JOptionPane.INFORMATION_MESSAGE);
+        if(resultType.equals(resultTypes[1]) || resultType.equals(resultTypes[2])) {
+            String[] orderTypes = {"Ascending", "Descending"};
 
-        //After the file is done being processed, the results
-        // will be displayed.  This will include displaying the words alphabetically,
-        // or by frequency or by length (depending on the user's choice).
+            String orderType = (String) JOptionPane.showInputDialog(null, "How do you want to sort the results?", "Sort Type", JOptionPane.QUESTION_MESSAGE, null, orderTypes, orderTypes[1]);
+
+            boolean ascending = false;
+
+            if(orderType.equals(orderTypes[0])) ascending = true;
+
+            results = resultType.equals(resultTypes[1]) ? list.sortFrequency(ascending).toString() : list.sortLength(ascending).toString();
+        }
+
+        JOptionPane.showMessageDialog(null, results, "Results " + resultType, JOptionPane.INFORMATION_MESSAGE);
 
     }
 
@@ -47,7 +57,9 @@ public class FileProcessor {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
 
-                Scanner sc = new Scanner(file);
+                this.file = file;
+
+                Scanner sc = new Scanner(this.file);
 
                 this.fileScanner = sc;
             }
@@ -55,7 +67,6 @@ public class FileProcessor {
             e.printStackTrace();
         }
     }
-//
 
     /**
      * This method lowercases the String.
@@ -70,7 +81,7 @@ public class FileProcessor {
 
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (!Character.isLetterOrDigit(c)) {
+            if (!Character.isLetter(c)) {
                 s = s.substring(0, i) + s.substring(i + 1);
                 i--;
             }
